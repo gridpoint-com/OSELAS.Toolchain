@@ -1,3 +1,7 @@
+2007-12-07 Marc Kleine-Budde <mkl@pengutronix.de>
+	* patches/gcc-4.1.2/generic/gcc-4.1.1-pr34130.diff:
+	added fix for gcc's pr34130
+
 2007-10-29 Marc Kleine-Budde <mkl@pengutronix.de>
 
 	* rules/cross-gcc-second.make: remove .la files,
