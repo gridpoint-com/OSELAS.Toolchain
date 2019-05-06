@@ -10,7 +10,7 @@
 
 ptxd_make_debian_version_ext() {
     local num="$(. /etc/os-release; echo ${VERSION_ID})"
-    local version="-0ptx1"
+    local version="-0ptx2"
 
     if [ -n "${num}" ]; then
 	version="${version}~bpo${num}+1"
