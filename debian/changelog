@@ -1,3 +1,9 @@
+oselas.toolchain (2019.09.1-1) unstable; urgency=medium
+
+  * new upstream version
+
+ -- Michael Olbrich <m.olbrich@pengutronix.de>  Sat, 07 Dec 2019 12:28:44 +0100
+
 oselas.toolchain (2019.09.0-1) unstable; urgency=medium
 
   * new upstream version
