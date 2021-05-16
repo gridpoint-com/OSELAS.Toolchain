@@ -17,11 +17,11 @@ main() {
 
     local ifs_orig="${IFS}"
     IFS="_"
-    set -- ${deb}
+    set -- ${deb##*/}
     IFS="${ifs_orig}"
 
-    local package="${1##*/}"
-    local inst="${1%${package}}"
+    local package="${1}"
+    local inst="${deb%${package}}"
     local version="${2}"
     local arch="${3%%.deb}"
 
