@@ -1,0 +1,20 @@
+From: Jon Ringle <jringle@gridpoint.com>
+Date: Tue, 1 Aug 2023 00:03:39 +0000
+Subject: [PATCH] rt/timer_create: -Wno-array-bounds
+
+---
+ rt/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/rt/Makefile b/rt/Makefile
+index 9ea839456581..7398df40036b 100644
+--- a/rt/Makefile
++++ b/rt/Makefile
+@@ -65,6 +65,7 @@ CFLAGS-mq_timedreceive.c += -fexceptions -fasynchronous-unwind-tables
+ CFLAGS-mq_timedsend.c += -fexceptions -fasynchronous-unwind-tables
+ CFLAGS-clock_nanosleep.c += -fexceptions -fasynchronous-unwind-tables
+ CFLAGS-librt-cancellation.c += -fasynchronous-unwind-tables
++CFLAGS-timer_create.c += -Wno-array-bounds
+ 
+ LDFLAGS-rt.so = -Wl,--enable-new-dtags,-z,nodelete
+ 

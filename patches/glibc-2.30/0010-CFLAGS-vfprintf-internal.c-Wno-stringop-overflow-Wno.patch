@@ -1,0 +1,22 @@
+From: Jon Ringle <jringle@gridpoint.com>
+Date: Mon, 31 Jul 2023 18:47:48 +0000
+Subject: [PATCH] CFLAGS-vfprintf-internal.c += -Wno-stringop-overflow
+ -Wno-array-bounds
+
+---
+ stdio-common/Makefile | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/stdio-common/Makefile b/stdio-common/Makefile
+index c38299c8648f..b4d12148c5c4 100644
+--- a/stdio-common/Makefile
++++ b/stdio-common/Makefile
+@@ -124,6 +124,8 @@ $(objpfx)tst-%-mem.out: $(objpfx)tst-%.out
+ 	$(evaluate-test)
+ 
+ CFLAGS-vfprintf.c += -Wno-uninitialized
++CFLAGS-vfprintf-internal.c += -Wno-stringop-overflow -Wno-array-bounds
++CFLAGS-vfwprintf-internal.c += -Wno-stringop-overflow -Wno-array-bounds
+ CFLAGS-vfwprintf.c += -Wno-uninitialized
+ 
+ CFLAGS-tmpfile.c += -fexceptions

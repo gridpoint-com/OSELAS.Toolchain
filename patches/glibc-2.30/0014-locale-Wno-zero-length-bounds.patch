@@ -1,0 +1,21 @@
+From: Jon Ringle <jringle@gridpoint.com>
+Date: Mon, 31 Jul 2023 21:24:46 +0000
+Subject: [PATCH] locale: -Wno-zero-length-bounds
+
+---
+ locale/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/locale/Makefile b/locale/Makefile
+index 1c727d814f8a..5407fddd7181 100644
+--- a/locale/Makefile
++++ b/locale/Makefile
+@@ -100,7 +100,7 @@ locale-CPPFLAGS = -DCOMPLOCALEDIR='"$(complocaledir)"' \
+ CPPFLAGS-locale-programs = -DLOCALE_PATH='$(localepath)' \
+ 			   -DCHARMAP_PATH='"$(i18ndir)/charmaps"' \
+ 			   -DREPERTOIREMAP_PATH='"$(i18ndir)/repertoiremaps"' \
+-			   -DLOCSRCDIR='"$(i18ndir)/locales"'
++			   -DLOCSRCDIR='"$(i18ndir)/locales"' -Wno-zero-length-bounds
+ 
+ CFLAGS-charmap.c += -Wno-write-strings -Wno-char-subscripts
+ CFLAGS-locfile.c += -Wno-write-strings -Wno-char-subscripts

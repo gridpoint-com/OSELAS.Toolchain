@@ -1,0 +1,92 @@
+From: unknown author <unknown.author@example.com>
+Date: Mon, 31 Jul 2023 18:17:03 +0000
+Subject: [PATCH] 2-glibc-26779.diff
+
+---
+ intl/localealias.c | 12 ++++++++----
+ io/ftw.c           |  5 +++--
+ stdlib/setenv.c    |  6 ++++--
+ 3 files changed, 15 insertions(+), 8 deletions(-)
+
+diff --git a/intl/localealias.c b/intl/localealias.c
+index b4f8c7a556f8..8237deddb249 100644
+--- a/intl/localealias.c
++++ b/intl/localealias.c
+@@ -318,7 +318,9 @@ read_alias_file (const char *fname, int fname_len)
+ 
+ 		  if (string_space_act + alias_len + value_len > string_space_max)
+ 		    {
+-		      /* Increase size of memory pool.  */
++		      /* Increase size of memory pool.  Avoid using the raw
++			 reallocated pointer to avoid GCC -Wuse-after-free.  */
++		      intptr_t ip_string_space = (intptr_t)string_space;
+ 		      size_t new_size = (string_space_max
+ 					 + (alias_len + value_len > 1024
+ 					    ? alias_len + value_len : 1024));
+@@ -326,14 +328,16 @@ read_alias_file (const char *fname, int fname_len)
+ 		      if (new_pool == NULL)
+ 			goto out;
+ 
+-		      if (__builtin_expect (string_space != new_pool, 0))
++		      intptr_t ip_new_pool = (intptr_t)new_pool;
++		      intptr_t ptr_diff = ip_new_pool - ip_string_space;
++		      if (__builtin_expect (ptr_diff == 0, 0))
+ 			{
+ 			  size_t i;
+ 
+ 			  for (i = 0; i < nmap; i++)
+ 			    {
+-			      map[i].alias += new_pool - string_space;
+-			      map[i].value += new_pool - string_space;
++			      map[i].alias += ptr_diff;
++			      map[i].value += ptr_diff;
+ 			    }
+ 			}
+ 
+diff --git a/io/ftw.c b/io/ftw.c
+index fefcf91d1a21..dabb16d14c82 100644
+--- a/io/ftw.c
++++ b/io/ftw.c
+@@ -310,8 +310,8 @@ open_dir_stream (int *dfdp, struct ftw_data *data, struct dir_data *dirp)
+ 	  buf[actsize++] = '\0';
+ 
+ 	  /* Shrink the buffer to what we actually need.  */
+-	  data->dirstreams[data->actdir]->content = realloc (buf, actsize);
+-	  if (data->dirstreams[data->actdir]->content == NULL)
++	  void *content = realloc (buf, actsize);
++	  if (content == NULL)
+ 	    {
+ 	      int save_err = errno;
+ 	      free (buf);
+@@ -325,6 +325,7 @@ open_dir_stream (int *dfdp, struct ftw_data *data, struct dir_data *dirp)
+ 	      data->dirstreams[data->actdir]->streamfd = -1;
+ 	      data->dirstreams[data->actdir] = NULL;
+ 	    }
++	  data->dirstreams[data->actdir]->content = content;
+ 	}
+     }
+ 
+diff --git a/stdlib/setenv.c b/stdlib/setenv.c
+index 7a4efe5318a9..9c0f019623cb 100644
+--- a/stdlib/setenv.c
++++ b/stdlib/setenv.c
+@@ -150,7 +150,9 @@ __add_to_environ (const char *name, const char *value, const char *combined,
+     {
+       char **new_environ;
+ 
+-      /* We allocated this space; we can extend it.  */
++      /* We allocated this space; we can extend it.  Avoid using the raw
++	 reallocated pointer to avoid GCC -Wuse-after-free.  */
++      uintptr_t ip_last_environ = (uintptr_t)last_environ;
+       new_environ = (char **) realloc (last_environ,
+ 				       (size + 2) * sizeof (char *));
+       if (new_environ == NULL)
+@@ -159,7 +161,7 @@ __add_to_environ (const char *name, const char *value, const char *combined,
+ 	  return -1;
+ 	}
+ 
+-      if (__environ != last_environ)
++      if ((uintptr_t)__environ != ip_last_environ)
+ 	memcpy ((char *) new_environ, (char *) __environ,
+ 		size * sizeof (char *));
+ 

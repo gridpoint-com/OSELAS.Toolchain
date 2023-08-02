@@ -1,0 +1,20 @@
+From: Jon Ringle <jringle@gridpoint.com>
+Date: Mon, 31 Jul 2023 16:51:15 +0000
+Subject: [PATCH] setlocale.c: -Wno-stringop-overflow
+
+---
+ locale/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/locale/Makefile b/locale/Makefile
+index d78cf9b83ac9..1c727d814f8a 100644
+--- a/locale/Makefile
++++ b/locale/Makefile
+@@ -105,6 +105,7 @@ CPPFLAGS-locale-programs = -DLOCALE_PATH='$(localepath)' \
+ CFLAGS-charmap.c += -Wno-write-strings -Wno-char-subscripts
+ CFLAGS-locfile.c += -Wno-write-strings -Wno-char-subscripts
+ CFLAGS-charmap-dir.c += -Wno-write-strings
++CFLAGS-setlocale.c += -Wno-stringop-overflow
+ 
+ # Set libof-* for each routine.
+ cpp-srcs-left := $(localedef-modules) $(localedef-aux) $(locale-modules) \

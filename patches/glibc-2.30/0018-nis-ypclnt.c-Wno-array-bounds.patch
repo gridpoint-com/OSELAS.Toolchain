@@ -1,0 +1,20 @@
+From: Jon Ringle <jringle@gridpoint.com>
+Date: Tue, 1 Aug 2023 00:55:03 +0000
+Subject: [PATCH] nis/ypclnt.c: -Wno-array-bounds
+
+---
+ nis/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/nis/Makefile b/nis/Makefile
+index 9cefaec40c81..d78b4ef0c0b8 100644
+--- a/nis/Makefile
++++ b/nis/Makefile
+@@ -92,6 +92,7 @@ endif # have-GLIBC_2.28
+ 
+ include ../Rules
+ 
++CFLAGS-ypclnt.c += -Wno-array-bounds
+ 
+ ifeq ($(build-obsolete-nsl),yes)
+ $(objpfx)libnss_nis.so: $(objpfx)libnsl.so$(libnsl.so-version) \

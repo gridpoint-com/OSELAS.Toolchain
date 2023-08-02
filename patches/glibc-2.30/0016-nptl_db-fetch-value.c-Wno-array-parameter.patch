@@ -1,0 +1,21 @@
+From: Jon Ringle <jringle@gridpoint.com>
+Date: Tue, 1 Aug 2023 00:21:23 +0000
+Subject: [PATCH] nptl_db/fetch-value.c: -Wno-array-parameter
+
+---
+ nptl_db/Makefile | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/nptl_db/Makefile b/nptl_db/Makefile
+index 2ea44e7afc5a..f0439fdee5b3 100644
+--- a/nptl_db/Makefile
++++ b/nptl_db/Makefile
+@@ -51,6 +51,8 @@ libthread_db-inhibit-o = $(filter-out .os,$(object-suffixes))
+ # The ps_* callback functions are not defined.
+ libthread_db.so-no-z-defs = yes
+ 
++CFLAGS-fetch-value.c += -Wno-array-parameter
++
+ tests-special += $(objpfx)db-symbols.out
+ 
+ include ../Rules

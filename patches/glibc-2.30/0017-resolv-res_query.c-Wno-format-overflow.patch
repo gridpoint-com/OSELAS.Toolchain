@@ -1,0 +1,20 @@
+From: Jon Ringle <jringle@gridpoint.com>
+Date: Tue, 1 Aug 2023 00:38:45 +0000
+Subject: [PATCH] resolv/res_query.c: -Wno-format-overflow
+
+---
+ resolv/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/resolv/Makefile b/resolv/Makefile
+index 3f8444374211..f9e446ffd045 100644
+--- a/resolv/Makefile
++++ b/resolv/Makefile
+@@ -142,6 +142,7 @@ LOCALES := en_US.UTF-8 en_US.ISO-8859-1
+ include ../gen-locales.mk
+ 
+ CFLAGS-res_hconf.c += -fexceptions
++CFLAGS-res_query.c += -Wno-format-overflow
+ 
+ # The DNS NSS modules needs the resolver.
+ $(objpfx)libnss_dns.so: $(objpfx)libresolv.so

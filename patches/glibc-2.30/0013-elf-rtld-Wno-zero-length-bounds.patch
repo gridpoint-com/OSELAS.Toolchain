@@ -1,0 +1,21 @@
+From: Jon Ringle <jringle@gridpoint.com>
+Date: Mon, 31 Jul 2023 20:56:11 +0000
+Subject: [PATCH] elf/rtld: -Wno-zero-length-bounds
+
+---
+ elf/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/elf/Makefile b/elf/Makefile
+index a3eefd1b1f49..2b15893c475a 100644
+--- a/elf/Makefile
++++ b/elf/Makefile
+@@ -595,7 +595,7 @@ CFLAGS-ldconfig.c += $(SYSCONF-FLAGS) -D'LIBDIR="$(libdir)"' \
+ libof-ldconfig = ldconfig
+ CFLAGS-dl-cache.c += $(SYSCONF-FLAGS)
+ CFLAGS-cache.c += $(SYSCONF-FLAGS)
+-CFLAGS-rtld.c += $(SYSCONF-FLAGS)
++CFLAGS-rtld.c += -Wno-zero-length-bounds $(SYSCONF-FLAGS)
+ 
+ cpp-srcs-left := $(all-rtld-routines:=.os)
+ lib := rtld

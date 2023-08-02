@@ -1,0 +1,19 @@
+From 0e5788f6d62d43eed9f057c5da4f058d1c82880f Mon Sep 17 00:00:00 2001
+From: Jon Ringle <jringle@gridpoint.com>
+Date: Thu, 3 Aug 2023 03:37:25 +0000
+Subject: iconv/loop.c: +1 on bytebuf
+
+
+diff --git a/iconv/loop.c b/iconv/loop.c
+index fa98c1a52190..2f216c45ec8c 100644
+--- a/iconv/loop.c
++++ b/iconv/loop.c
+@@ -379,7 +379,7 @@ SINGLE(LOOPFCT) (struct __gconv_step *step,
+   void *data = step->__data;
+ #  endif
+   int result = __GCONV_OK;
+-  unsigned char bytebuf[MAX_NEEDED_INPUT];
++  unsigned char bytebuf[MAX_NEEDED_INPUT+1];
+   const unsigned char *inptr = *inptrp;
+   unsigned char *outptr = *outptrp;
+   size_t inlen;

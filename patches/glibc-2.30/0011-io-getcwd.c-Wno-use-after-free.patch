@@ -1,0 +1,29 @@
+From: Jon Ringle <jringle@gridpoint.com>
+Date: Mon, 31 Jul 2023 19:36:26 +0000
+Subject: [PATCH] io/getcwd.c: -Wno-use-after-free
+
+---
+ io/Makefile | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/io/Makefile b/io/Makefile
+index cfbf4cd0ce5a..cb6325a51b66 100644
+--- a/io/Makefile
++++ b/io/Makefile
+@@ -99,7 +99,7 @@ CFLAGS-fstatfs.c += -fexceptions
+ CFLAGS-statvfs.c += -fexceptions
+ CFLAGS-fstatvfs.c += -fexceptions
+ CFLAGS-fts.c += -Wno-uninitialized $(uses-callbacks) -fexceptions
+-CFLAGS-fts64.c += -Wno-uninitialized $(uses-callbacks) -fexceptions
++CFLAGS-fts64.c += -Wno-uninitialized -Wno-use-after-free $(uses-callbacks) -fexceptions
+ CFLAGS-ftw.c += $(uses-callbacks) -fexceptions
+ CFLAGS-ftw64.c += $(uses-callbacks) -fexceptions
+ CFLAGS-lockf.c += -fexceptions
+@@ -109,6 +109,7 @@ CFLAGS-fallocate.c += -fexceptions
+ CFLAGS-fallocate64.c += -fexceptions
+ CFLAGS-read.c += -fexceptions
+ CFLAGS-write.c += -fexceptions
++CFLAGS-getcwd.c += -Wno-use-after-free
+ 
+ CFLAGS-test-stat.c += -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE
+ CFLAGS-test-lfs.c += -D_LARGEFILE64_SOURCE
